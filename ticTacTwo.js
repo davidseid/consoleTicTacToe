@@ -22,6 +22,7 @@ class Game {
 
     this.player = 'X';
     this.state = 'play';
+    this.moves = 0;
   }
 }
 
@@ -52,6 +53,40 @@ const rotatePlayer = (player) => {
   if (player === 'O') return 'X';
 };
 
+
+
+const printResult = (game) => {
+  if (game.state === 'win') {
+    console.log(`Player ${game.player} wins!`);
+  } else if (game.state === 'tie') {
+    console.log('Tie Game');
+  }
+}
+
+const detectWin = (game) => {
+  const board = game.board;
+  const player = game.player;
+  if (board[0][0] === player && board[0][1] === player && board[0][2] === player) {
+    game.state = 'win';
+  } else if (board[1][0] === player && board[1][1] === player && board[1][2] === player) {
+    game.state = 'win';
+  } else if (board[2][0] === player && board[2][1] === player && board[2][2] === player) {
+    game.state = 'win';
+  } else if (board[0][0] === player && board[1][0] === player && board[2][0] === player) {
+    game.state = 'win';
+  } else if (board[0][1] === player && board[1][1] === player && board[2][1] === player) {
+    game.state = 'win';
+  } else if (board[0][2] === player && board[1][2] === player && board[2][2] === player) {
+    game.state = 'win';
+  } else if (board[0][0] === player && board[1][1] === player && board[2][2] === player) {
+    game.state = 'win';
+  } else if (board[0][2] === player && board[1][1] === player && board[2][0] === player) {
+    game.state = 'win';
+  } else if (game.moves === 9) {
+    game.state = 'tie';
+  }
+}
+
 /* Prompt User */ 
 const getMove = (game) => {
   let player = game.player;
@@ -65,6 +100,20 @@ const getMove = (game) => {
 
     if (board[row][col] === ' ') {
       board[row][col] = player;
+      game.moves++;
+      detectWin(game);
+      if (game.state === 'win') {
+        printBoard(game.board);
+        printResult(game);
+        rl.close();
+        return;
+      } else if (game.state === 'tie') {
+        printBoard(game.board);
+        printResult(game);
+        rl.close();
+        return;
+      }
+
       game.player = rotatePlayer(player);
       getMove(game);
     } else {
