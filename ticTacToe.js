@@ -46,18 +46,24 @@ const printRow = (row) => {
 const updateBoard = (board, input, player) => {
   let row = input[0];
   let col = input[1];
-  board[row][col] = player;
+  if (!board[row][col]) {
+    board[row][col] = player;
+    return true;
+  } else {
+    return false;
+  }
 }
 
 const getMove = (updateBoard, board, player) => {
     rl.question(`Player ${player}, please input the row and column for your next move: `, (answer) => {
-      // update board
-      updateBoard(board, answer, player);
+      const success = updateBoard(board, answer, player);
       printBoard(board);
       // if board is full return draw
       // if winner return win
       // else 
-      player === 'X' ? player = 'O' : player = 'X';
+      if (success) {
+        player === 'X' ? player = 'O' : player = 'X';
+      }
       getMove(updateBoard, board, player);
   });
 }
