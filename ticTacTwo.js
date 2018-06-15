@@ -15,9 +15,9 @@
 
 class Game {
   constructor() {
-    this.board = new Array(3);
+    this.board = new Array();
     for (let i = 0; i < 3; i++) {
-      this.board.push(new Array(3));
+      this.board.push(new Array(3).fill(' '));
     }
 
     this.player = 'X';
@@ -28,12 +28,21 @@ class Game {
 const printBoard = (board) => {
   console.log('\n');
   printRow(board[0]);
-  console.log('_________________');
+  console.log('_________');
   printRow(board[1]);
-  console.log('_________________');
+  console.log('_________');
   printRow(board[2]);
 }
 
 const printRow = (row) => {
-  console.log(`row[0] | row[1] | row[2]`);
+  console.log(`${row[0]} | ${row[1]} | ${row[2]}`);
 }
+
+
+
+
+
+
+const myGame = new Game();
+
+printBoard(myGame.board);
