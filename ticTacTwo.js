@@ -25,6 +25,7 @@ class Game {
   }
 }
 
+/* Print Board */
 const printBoard = (board) => {
   console.log('\n');
   printRow(board[0]);
@@ -38,11 +39,43 @@ const printRow = (row) => {
   console.log(`${row[0]} | ${row[1]} | ${row[2]}`);
 }
 
+/* Initialize Readline */
+const readline = require('readline');
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
+/* rotatePlayer */
+const rotatePlayer = (player) => {
+  if (player === 'X') return 'O';
+  if (player === 'O') return 'X';
+};
 
+/* Prompt User */ 
+const getMove = (game) => {
+  let player = game.player;
+  let board = game.board;
 
+  printBoard(board);
 
+  rl.question(`Player ${player}, select your move `, (answer) => {
+    let row = answer[0];
+    let col = answer[1];
 
+    if (board[row][col] === ' ') {
+      board[row][col] = player;
+      game.player = rotatePlayer(player);
+      getMove(game);
+    } else {
+      getMove(game);
+    }
+  });
+}
+
+/* Instantiate */
 const myGame = new Game();
 
-printBoard(myGame.board);
+
+/* Test */
+getMove(myGame);
